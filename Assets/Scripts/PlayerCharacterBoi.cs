@@ -40,20 +40,10 @@ public class PlayerCharacterBoi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Fair regarder au personnage la position de la souris
+       
 
         // Vérifier les inputs du joueur
-        // Vertical (W, S et Joystick avant/arrière)
-        inputVertical = Input.GetAxis("Vertical");
-        // Horizontal (A, D et Joystick gauche/droite)
-        inputHorizontal = Input.GetAxis("Horizontal");
-
-        //Les variables pour les animations
-        playerCharacterBoiAnimator.SetFloat("Horizontal", inputHorizontal);
-        playerCharacterBoiAnimator.SetFloat("Vertical", inputVertical);
-
-        // Vecteur de mouvements (Avant/arrière + Gauche/Droite)
-        moveDirection = transform.forward * inputVertical + transform.right * inputHorizontal;
+        
 
         // Les touches pour les sorts
         if (Input.GetMouseButtonDown(0))
@@ -88,7 +78,55 @@ public class PlayerCharacterBoi : MonoBehaviour
 
     private void FixedUpdate()
     {
+        moveDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
         // Déplacer le personnage selon le vecteur de direction
         rb.MovePosition(rb.position + moveDirection.normalized * movementSpeed * Time.fixedDeltaTime);
+
+        // Positionner le personnage vers la souris
+        Turning();
+
+        // Corriger les animations pour la direction du personnage
+        Animating(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+    }
+
+    void Turning()
+    {
+        // Create a ray from the mouse cursor on screen in the direction of the camera.
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        // Create a RaycastHit variable to store information about what was hit by the ray.
+        RaycastHit floorHit;
+
+        // Perform the raycast and if it hits something on the floor layer...
+        if (Physics.Raycast(camRay, out floorHit))
+        {
+            // Create a vector from the player to the point on the floor the raycast from the mouse hit.
+            Vector3 playerToMouse = floorHit.point - transform.position;
+
+            // Ensure the vector is entirely along the floor plane.
+            playerToMouse.y = 0f;
+
+            // Create a quaternion (rotation) based on looking down the vector from the player to the mouse.
+            Quaternion newRotation = Quaternion.LookRotation(playerToMouse);
+
+            // Set the player's rotation to this new rotation.
+            rb.MoveRotation(newRotation);
+        }
+    }
+
+    void Animating(float h, float v)
+    {
+        moveDirection = new Vector3(h, 0, v);
+
+        if (moveDirection.magnitude > 1.0f)
+        {
+            moveDirection = moveDirection.normalized;
+        }
+
+        moveDirection = transform.InverseTransformDirection(moveDirection);
+
+        playerCharacterBoiAnimator.SetFloat("Horizontal", moveDirection.x, 0.05f, Time.deltaTime);
+        playerCharacterBoiAnimator.SetFloat("Vertical", moveDirection.z, 0.05f, Time.deltaTime);
     }
 }
