@@ -10,7 +10,7 @@ public class FireBall : MonoBehaviour
     private bool explosion = false;
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         // La boule de feu se dirige vers sa destination
         transform.position = Vector3.MoveTowards(transform.position, destination, speed);
@@ -23,10 +23,13 @@ public class FireBall : MonoBehaviour
         }
     }
 
+    // Pour faire disparaitre la FireBall
     public IEnumerator disappear()
     {
+        // La FireBall explose
         explosion = true;
         yield return new WaitForSeconds(1f);
+        // Ensuite elle disparait
         Destroy(gameObject);
     }
 }
