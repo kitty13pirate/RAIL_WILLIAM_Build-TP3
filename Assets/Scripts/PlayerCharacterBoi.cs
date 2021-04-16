@@ -23,13 +23,22 @@ public class PlayerCharacterBoi : MonoBehaviour
     // Pour verifier si le personnage utilise un sort
     private bool isCasting;
 
-    // Pour verifier le cooldown des habilites
+    // Les prefabs pour les sorts divers
+    public Object fireBall;
+
+    // Pour verifier le cooldown des sortileges
     private bool pushCooldown = false;
     private bool healCooldown = false;
     private bool earthCooldown = false;
     private bool fireCooldown = false;
     private bool waterCooldown = false;
     private bool windCooldown = false;
+
+    // Le point de depart des sortileges
+    public Transform castLocation;
+
+    // Le layermask a ignorer
+    public LayerMask mousePointMask;
 
     void Awake()
     {
@@ -57,6 +66,7 @@ public class PlayerCharacterBoi : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             playerCharacterBoiAnimator.SetTrigger("Fire Spell");
+            castFireBall();
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
@@ -98,8 +108,9 @@ public class PlayerCharacterBoi : MonoBehaviour
         // Create a RaycastHit variable to store information about what was hit by the ray.
         RaycastHit floorHit;
 
-        // Perform the raycast and if it hits something on the floor layer...
-        if (Physics.Raycast(camRay, out floorHit))
+        // Perform the raycast and if it hits something on the mousePointMask layer...
+        // Le 10 est le numero du layermask mousePoint, utilise pour detecter la position de la souris
+        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, 10))
         {
             // Create a vector from the player to the point on the floor the raycast from the mouse hit.
             Vector3 playerToMouse = floorHit.point - transform.position;
@@ -128,5 +139,10 @@ public class PlayerCharacterBoi : MonoBehaviour
 
         playerCharacterBoiAnimator.SetFloat("Horizontal", moveDirection.x, 0.05f, Time.deltaTime);
         playerCharacterBoiAnimator.SetFloat("Vertical", moveDirection.z, 0.05f, Time.deltaTime);
+    }
+
+    void castFireBall()
+    {
+        object castedFireBall = Instantiate(fireBall, castLocation.position, Quaternion.identity);
     }
 }

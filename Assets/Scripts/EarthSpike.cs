@@ -27,6 +27,6 @@ public class EarthSpike : MonoBehaviour
     // Cette fonction est appelee dans l'animation EarthSpikeErupt
     public void disappear()
     {
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }
