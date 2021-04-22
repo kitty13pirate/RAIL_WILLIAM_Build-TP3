@@ -24,7 +24,12 @@ public class PlayerCharacterBoi : MonoBehaviour
     private bool isCasting;
 
     // Les prefabs pour les sorts divers
+    public Object spectralHand;
     public Object fireBall;
+    public Object earthSpike;
+    public Object waterJet;
+    public Object windBurst;
+    public Object healLight;
 
     // Pour verifier le cooldown des sortileges
     private bool pushCooldown = false;
@@ -62,6 +67,7 @@ public class PlayerCharacterBoi : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && !pushCooldown)
         {
             playerCharacterBoiAnimator.SetTrigger("Push Spell");
+            castSpectralHand();
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
@@ -71,18 +77,22 @@ public class PlayerCharacterBoi : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             playerCharacterBoiAnimator.SetTrigger("Earth Spell");
+            castEarthSpike();
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             playerCharacterBoiAnimator.SetTrigger("Water Spell");
+            castWaterJet();
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             playerCharacterBoiAnimator.SetTrigger("Wind Spell");
+            castWindBurst();
         }
         if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             playerCharacterBoiAnimator.SetTrigger("Heal Spell");
+            castHealLight();
         }
     }
 
@@ -110,7 +120,7 @@ public class PlayerCharacterBoi : MonoBehaviour
 
         // Perform the raycast and if it hits something on the mousePointMask layer...
         // Le 10 est le numero du layermask mousePoint, utilise pour detecter la position de la souris
-        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, 10))
+        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, mousePointMask))
         {
             // Create a vector from the player to the point on the floor the raycast from the mouse hit.
             Vector3 playerToMouse = floorHit.point - transform.position;
@@ -141,8 +151,33 @@ public class PlayerCharacterBoi : MonoBehaviour
         playerCharacterBoiAnimator.SetFloat("Vertical", moveDirection.z, 0.05f, Time.deltaTime);
     }
 
+    void castSpectralHand()
+    {
+        object castedSpectralHand = Instantiate(spectralHand, castLocation.position, transform.rotation);
+    }
+
     void castFireBall()
     {
         object castedFireBall = Instantiate(fireBall, castLocation.position, Quaternion.identity);
+    }
+
+    void castEarthSpike()
+    {
+        object castedEarthSpike = Instantiate(earthSpike);
+    }
+
+    void castWaterJet()
+    {
+        object castedWaterJet = Instantiate(waterJet, castLocation.position, transform.rotation, transform);
+    }
+
+    void castWindBurst()
+    {
+        object castedWindBurst = Instantiate(windBurst, transform.position, Quaternion.identity);
+    }
+
+    void castHealLight()
+    {
+        object castedHealLight = Instantiate(healLight, transform.position, Quaternion.identity);
     }
 }
