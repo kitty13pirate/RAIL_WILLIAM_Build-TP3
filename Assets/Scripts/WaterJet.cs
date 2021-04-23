@@ -6,23 +6,29 @@ public class WaterJet : Sortilege
 {
     public ParticleSystem psWater;
     public bool isOn = true;
+    public Collider jetHitbox;
+    public int jetDamage;
     // Start is called before the first frame update
     void Start()
     {
         // Le timer debute
-        StartCoroutine(disappear());
+        StartCoroutine(disappear(3f));
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
+        if (isOn)
+        {
+            hitboxCollision(jetHitbox, 2, jetDamage);
+        }
     }
 
     // Pour faire disparaitre le WaterJet
-    public IEnumerator disappear()
+    public override IEnumerator disappear(float time)
     {
         // Le WaterJet dure 3 secondes
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(time);
         psWater.Stop();
         isOn = false;
         // Le WaterJet attend que ses particules disparaissent avant de se detruire

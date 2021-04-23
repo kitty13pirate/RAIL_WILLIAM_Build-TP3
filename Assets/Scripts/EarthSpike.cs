@@ -7,10 +7,18 @@ public class EarthSpike : Sortilege
     private Vector3 destination;
     public ParticleSystem psDust;
     public LayerMask mousePointMask;
+    public Collider spikeHitbox1;
+    public Collider spikeHitbox2;
+    public Collider spikeHitbox3;
+    public int spikeDamage;
+    private List<Collider> colliders;
 
     // Start is called before the first frame update
     void Start()
     {
+        // Je rentre les colliders dans la liste
+        colliders = new List<Collider> { spikeHitbox1, spikeHitbox2, spikeHitbox3 };
+
         // Create a ray from the mouse cursor on screen in the direction of the camera.
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -26,17 +34,11 @@ public class EarthSpike : Sortilege
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-
-    }
-
-    // La fonction pour endommager les enemies
-    public void doDamage()
+    // La fonction pour endommager les enemies est appelee durant l'animation
+    public void doDamage(int number)
     {
         psDust.Emit(400);
-        Debug.Log("DAMAGE");
+        hitboxCollision(colliders[number-1], 2, spikeDamage * number);
     }
 
     // Cette fonction est appelee dans l'animation EarthSpikeErupt

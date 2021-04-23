@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class PlayerCharacterBoi : MonoBehaviour
 {
+    // La vie du personnage
+    public int health = 1000;
+
     // La vitesse du personnage
     public float movementSpeed;
-
-    // Pour verifier les inputs
-    private float inputVertical;
-    private float inputHorizontal;
 
     // La direction du mouvement
     private Vector3 moveDirection;
@@ -69,27 +68,27 @@ public class PlayerCharacterBoi : MonoBehaviour
             playerCharacterBoiAnimator.SetTrigger("Push Spell");
             castSpectralHand();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha1) && !fireCooldown)
         {
             playerCharacterBoiAnimator.SetTrigger("Fire Spell");
             castFireBall();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && !earthCooldown)
         {
             playerCharacterBoiAnimator.SetTrigger("Earth Spell");
             castEarthSpike();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha3) && !waterCooldown)
         {
             playerCharacterBoiAnimator.SetTrigger("Water Spell");
             castWaterJet();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha4) && !windCooldown)
         {
             playerCharacterBoiAnimator.SetTrigger("Wind Spell");
             castWindBurst();
         }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha5) && !healCooldown)
         {
             playerCharacterBoiAnimator.SetTrigger("Heal Spell");
             castHealLight();
@@ -134,6 +133,21 @@ public class PlayerCharacterBoi : MonoBehaviour
             // Set the player's rotation to this new rotation.
             rb.MoveRotation(newRotation);
         }
+    }
+
+    public void takeDamage(int damageNumber)
+    {
+        health -= damageNumber;
+        Debug.Log(health);
+        if (health <= 0)
+        {
+            die();
+        }
+    }
+
+    void die()
+    {
+        Destroy(gameObject);
     }
 
     void Animating(float h, float v)

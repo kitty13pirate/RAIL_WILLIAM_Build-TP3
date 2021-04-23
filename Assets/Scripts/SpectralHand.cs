@@ -4,22 +4,26 @@ using UnityEngine;
 
 public class SpectralHand : Sortilege
 {
+    public Collider handHitbox;
+    public int spectralHandDamage;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(disappear());
+        // Un workaround puisque la main est 200 fois plus petite qu'elle ne le devrait etre ce qui cause du trouble a la fonction
+        // hitboxCollision qui utilise localScale
+        StartCoroutine(disappear(1f));
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        hitboxCollision(handHitbox, 2, spectralHandDamage);
     }
 
-    public IEnumerator disappear()
+    public override IEnumerator disappear(float time)
     {
-        // La FireBall explose
-        yield return new WaitForSeconds(1f);
+        // La main apparait
+        yield return new WaitForSeconds(time);
         // Ensuite elle disparait
         Destroy(gameObject);
     }

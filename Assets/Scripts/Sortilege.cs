@@ -21,7 +21,7 @@ public class Sortilege : MonoBehaviour
         }
         else
         {
-            colliders = Physics.OverlapBox(collider.transform.position, collider.transform.localScale / 2);
+            colliders = Physics.OverlapBox(collider.transform.position, collider.transform.lossyScale / 2, collider.transform.rotation);
         }
 
         foreach(Collider collision in colliders)
