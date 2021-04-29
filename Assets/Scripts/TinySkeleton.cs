@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UndeadSoldier : Enemy
+public class TinySkeleton : Enemy
 {
     private GameObject playerCharacter;
     private Animator enemyAnimator;
@@ -13,12 +13,13 @@ public class UndeadSoldier : Enemy
     {
         playerCharacter = FindObjectOfType<PlayerCharacterBoi>().gameObject;
         enemyAnimator = GetComponent<Animator>();
-        damage = 50;
+        damage = 20;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
+        takeDamage(1);
         Vector3 v = Camera.main.transform.position - transform.position;
         v.x = v.z = 0.0f;
         transform.LookAt(playerCharacter.transform);

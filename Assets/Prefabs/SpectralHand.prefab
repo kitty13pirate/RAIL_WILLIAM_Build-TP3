@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handHitbox: {fileID: 5402096454474409437}
-  spectralHandDamage: 1
+  spectralHandDamage: 5
 --- !u!65 &1986221460721756039
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -106,7 +106,7 @@ Transform:
   m_GameObject: {fileID: 1747473385140572689}
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: -0.0024999992}
-  m_LocalScale: {x: 0.005, y: 0.005, z: 0.005}
+  m_LocalScale: {x: 0.005, y: 0.01, z: 0.005}
   m_Children: []
   m_Father: {fileID: 1391864169018247}
   m_RootOrder: 0
@@ -191,12 +191,12 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: bb39b949736e19b42ac8d78c60d2faf1,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 200.00008
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb39b949736e19b42ac8d78c60d2faf1,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 200.00008
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bb39b949736e19b42ac8d78c60d2faf1,
         type: 3}

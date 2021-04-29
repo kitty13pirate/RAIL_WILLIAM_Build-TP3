@@ -12,7 +12,7 @@ public class WaterJet : Sortilege
     void Start()
     {
         // Le timer debute
-        StartCoroutine(disappear(3f));
+        StartCoroutine(disappear(1.5f));
     }
 
     // Update is called once per frame
@@ -27,7 +27,7 @@ public class WaterJet : Sortilege
     // Pour faire disparaitre le WaterJet
     public override IEnumerator disappear(float time)
     {
-        // Le WaterJet dure 3 secondes
+        // Le WaterJet dure 2 secondes
         yield return new WaitForSeconds(time);
         psWater.Stop();
         isOn = false;

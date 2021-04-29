@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UndeadSoldier : Enemy
+public class BigSkeleton : Enemy
 {
     private GameObject playerCharacter;
     private Animator enemyAnimator;
     public float speed;
+    public Object tinySkeleton;
 
     // Start is called before the first frame update
     void Start()
     {
         playerCharacter = FindObjectOfType<PlayerCharacterBoi>().gameObject;
         enemyAnimator = GetComponent<Animator>();
-        damage = 50;
+        damage = 200;
     }
 
     // Update is called once per frame
@@ -36,5 +37,19 @@ public class UndeadSoldier : Enemy
             isAttacking = true;
             enemyAnimator.SetTrigger("attack");
         }
+    }
+
+    public override void die()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            float x = Random.Range(transform.position.x - 1f, transform.position.x + 1f);
+            float z = Random.Range(transform.position.z - 1f, transform.position.z + 1f);
+
+            Vector3 newPosition = new Vector3(x, 0f, z);
+
+            object revengeSkeleton = Instantiate(tinySkeleton, newPosition, transform.rotation);
+        }
+        Destroy(gameObject);
     }
 }

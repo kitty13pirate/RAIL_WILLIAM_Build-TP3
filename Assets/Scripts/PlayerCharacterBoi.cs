@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCharacterBoi : MonoBehaviour
 {
     // La vie du personnage
     public int health = 1000;
+    public Slider healthBar;
 
     // La vitesse du personnage
     public float movementSpeed;
@@ -53,46 +55,41 @@ public class PlayerCharacterBoi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-
         // Vérifier les inputs du joueur
-        
+        if (!isCasting)
+        {
+            // Les touches pour les sorts
+            if (Input.GetMouseButtonDown(0))
+            {
+                castTeleport();
+            }
+            if (Input.GetMouseButtonDown(1) && !pushCooldown)
+            {
+                playerCharacterBoiAnimator.SetTrigger("Push Spell");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1) && !fireCooldown)
+            {
+                playerCharacterBoiAnimator.SetTrigger("Fire Spell");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && !earthCooldown)
+            {
+                playerCharacterBoiAnimator.SetTrigger("Earth Spell");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && !waterCooldown)
+            {
+                playerCharacterBoiAnimator.SetTrigger("Water Spell");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4) && !windCooldown)
+            {
+                playerCharacterBoiAnimator.SetTrigger("Wind Spell");
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha5) && !healCooldown)
+            {
+                playerCharacterBoiAnimator.SetTrigger("Heal Spell");
+            }
+        }
 
-        // Les touches pour les sorts
-        if (Input.GetMouseButtonDown(0))
-        {
-            playerCharacterBoiAnimator.SetTrigger("Basic Spell");
-        }
-        if (Input.GetMouseButtonDown(1) && !pushCooldown)
-        {
-            playerCharacterBoiAnimator.SetTrigger("Push Spell");
-            castSpectralHand();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1) && !fireCooldown)
-        {
-            playerCharacterBoiAnimator.SetTrigger("Fire Spell");
-            castFireBall();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && !earthCooldown)
-        {
-            playerCharacterBoiAnimator.SetTrigger("Earth Spell");
-            castEarthSpike();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && !waterCooldown)
-        {
-            playerCharacterBoiAnimator.SetTrigger("Water Spell");
-            castWaterJet();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && !windCooldown)
-        {
-            playerCharacterBoiAnimator.SetTrigger("Wind Spell");
-            castWindBurst();
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5) && !healCooldown)
-        {
-            playerCharacterBoiAnimator.SetTrigger("Heal Spell");
-            castHealLight();
-        }
+        
     }
 
     private void FixedUpdate()
@@ -100,7 +97,10 @@ public class PlayerCharacterBoi : MonoBehaviour
         moveDirection = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
 
         // Déplacer le personnage selon le vecteur de direction
-        rb.MovePosition(rb.position + moveDirection.normalized * movementSpeed * Time.fixedDeltaTime);
+        if (!isCasting)
+        {
+            rb.MovePosition(rb.position + moveDirection.normalized * movementSpeed * Time.fixedDeltaTime);
+        }
 
         // Positionner le personnage vers la souris
         Turning();
@@ -138,6 +138,7 @@ public class PlayerCharacterBoi : MonoBehaviour
     public void takeDamage(int damageNumber)
     {
         health -= damageNumber;
+        healthBar.value = health;
         Debug.Log(health);
         if (health <= 0)
         {
@@ -164,34 +165,60 @@ public class PlayerCharacterBoi : MonoBehaviour
         playerCharacterBoiAnimator.SetFloat("Horizontal", moveDirection.x, 0.05f, Time.deltaTime);
         playerCharacterBoiAnimator.SetFloat("Vertical", moveDirection.z, 0.05f, Time.deltaTime);
     }
+    void casting()
+    {
+        isCasting = false;
+    }
+
+    void castTeleport()
+    {
+        // Create a ray from the mouse cursor on screen in the direction of the camera.
+        Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        // Create a RaycastHit variable to store information about what was hit by the ray.
+        RaycastHit floorHit;
+
+        // Perform the raycast and if it hits something on the mousePointMask layer...
+        // Le 10 est le numero du layermask mousePoint, utilise pour detecter la position de la souris
+        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, mousePointMask))
+        {
+            transform.position = new Vector3(floorHit.point.x, floorHit.point.y - 0.5f, floorHit.point.z);
+        }
+    }
 
     void castSpectralHand()
     {
         object castedSpectralHand = Instantiate(spectralHand, castLocation.position, transform.rotation);
+        isCasting = true;
     }
 
     void castFireBall()
     {
         object castedFireBall = Instantiate(fireBall, castLocation.position, Quaternion.identity);
+        isCasting = true;
     }
 
     void castEarthSpike()
     {
         object castedEarthSpike = Instantiate(earthSpike);
+        isCasting = true;
     }
 
     void castWaterJet()
     {
         object castedWaterJet = Instantiate(waterJet, castLocation.position, transform.rotation, transform);
+        isCasting = true;
     }
 
     void castWindBurst()
     {
         object castedWindBurst = Instantiate(windBurst, transform.position, Quaternion.identity);
+        isCasting = true;
     }
 
     void castHealLight()
     {
         object castedHealLight = Instantiate(healLight, transform.position, Quaternion.identity);
+        isCasting = true;
     }
 }
