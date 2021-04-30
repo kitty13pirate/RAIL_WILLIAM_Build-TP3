@@ -18,6 +18,9 @@ public class PlayerCharacterBoi : MonoBehaviour
     //Le rigidbody
     private Rigidbody rb;
 
+    //Le particle system pour la teleportation
+    public ParticleSystem psTeleport;
+
     // L'animator
     private Animator playerCharacterBoiAnimator;
 
@@ -33,12 +36,13 @@ public class PlayerCharacterBoi : MonoBehaviour
     public Object healLight;
 
     // Pour verifier le cooldown des sortileges
-    private bool pushCooldown = false;
-    private bool healCooldown = false;
-    private bool earthCooldown = false;
-    private bool fireCooldown = false;
-    private bool waterCooldown = false;
-    private bool windCooldown = false;
+    private bool teleportCooldown;
+    private bool pushCooldown;
+    private bool healCooldown;
+    private bool earthCooldown;
+    private bool fireCooldown;
+    private bool waterCooldown;
+    private bool windCooldown;
 
     // Le point de depart des sortileges
     public Transform castLocation;
@@ -59,33 +63,40 @@ public class PlayerCharacterBoi : MonoBehaviour
         if (!isCasting)
         {
             // Les touches pour les sorts
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && !teleportCooldown)
             {
-                castTeleport();
+                playerCharacterBoiAnimator.SetTrigger("Basic Spell");
+                isCasting = true;
             }
             if (Input.GetMouseButtonDown(1) && !pushCooldown)
             {
                 playerCharacterBoiAnimator.SetTrigger("Push Spell");
+                isCasting = true;
             }
             if (Input.GetKeyDown(KeyCode.Alpha1) && !fireCooldown)
             {
                 playerCharacterBoiAnimator.SetTrigger("Fire Spell");
+                isCasting = true;
             }
             if (Input.GetKeyDown(KeyCode.Alpha2) && !earthCooldown)
             {
                 playerCharacterBoiAnimator.SetTrigger("Earth Spell");
+                isCasting = true;
             }
             if (Input.GetKeyDown(KeyCode.Alpha3) && !waterCooldown)
             {
                 playerCharacterBoiAnimator.SetTrigger("Water Spell");
+                isCasting = true;
             }
             if (Input.GetKeyDown(KeyCode.Alpha4) && !windCooldown)
             {
                 playerCharacterBoiAnimator.SetTrigger("Wind Spell");
+                isCasting = true;
             }
             if (Input.GetKeyDown(KeyCode.Alpha5) && !healCooldown)
             {
                 playerCharacterBoiAnimator.SetTrigger("Heal Spell");
+                isCasting = true;
             }
         }
 
@@ -138,8 +149,11 @@ public class PlayerCharacterBoi : MonoBehaviour
     public void takeDamage(int damageNumber)
     {
         health -= damageNumber;
+        if (health > 1000)
+        {
+            health = 1000;
+        }
         healthBar.value = health;
-        Debug.Log(health);
         if (health <= 0)
         {
             die();
@@ -182,43 +196,72 @@ public class PlayerCharacterBoi : MonoBehaviour
         // Le 10 est le numero du layermask mousePoint, utilise pour detecter la position de la souris
         if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, mousePointMask))
         {
+            psTeleport.Emit(200);
             transform.position = new Vector3(floorHit.point.x, floorHit.point.y - 0.5f, floorHit.point.z);
+            psTeleport.Emit(200);
         }
+        teleportCooldown = true;
+        StartCoroutine(coolDown(0, 3f));
     }
 
     void castSpectralHand()
     {
         object castedSpectralHand = Instantiate(spectralHand, castLocation.position, transform.rotation);
-        isCasting = true;
+        pushCooldown = true;
+        StartCoroutine(coolDown(1, 1f));
     }
 
     void castFireBall()
     {
         object castedFireBall = Instantiate(fireBall, castLocation.position, Quaternion.identity);
-        isCasting = true;
+        fireCooldown = true;
+        StartCoroutine(coolDown(2, 1.5f));
     }
 
     void castEarthSpike()
     {
         object castedEarthSpike = Instantiate(earthSpike);
-        isCasting = true;
+        earthCooldown = true;
+        StartCoroutine(coolDown(3, 4f));
     }
 
     void castWaterJet()
     {
         object castedWaterJet = Instantiate(waterJet, castLocation.position, transform.rotation, transform);
-        isCasting = true;
+        waterCooldown = true;
+        StartCoroutine(coolDown(4, 4f));
     }
 
     void castWindBurst()
     {
         object castedWindBurst = Instantiate(windBurst, transform.position, Quaternion.identity);
-        isCasting = true;
+        windCooldown = true;
+        StartCoroutine(coolDown(5, 3f));
     }
 
     void castHealLight()
     {
         object castedHealLight = Instantiate(healLight, transform.position, Quaternion.identity);
-        isCasting = true;
+        healCooldown = true;
+        StartCoroutine(coolDown(6, 10f));
+    }
+
+    private IEnumerator coolDown(int spellNumber, float time)
+    {
+        yield return new WaitForSeconds(time);
+        if (spellNumber == 0)
+            teleportCooldown = false;
+        else if (spellNumber == 1)
+            pushCooldown = false;
+        else if (spellNumber == 2)
+            fireCooldown = false;
+        else if (spellNumber == 3)
+            earthCooldown = false;
+        else if (spellNumber == 4)
+            waterCooldown = false;
+        else if (spellNumber == 5)
+            windCooldown = false;
+        else if (spellNumber == 6)
+            healCooldown = false;
     }
 }

@@ -15,7 +15,6 @@ public class Enemy : MonoBehaviour
     {
         health -= damageNumber;
         healthBar.value = health;
-        Debug.Log(health);
         if (health <= 0)
         {
             die();
@@ -25,6 +24,7 @@ public class Enemy : MonoBehaviour
     public virtual void die()
     {
         Destroy(gameObject);
+        GameManager.singleton.deadEnemy();
     }
 
 

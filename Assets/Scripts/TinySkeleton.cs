@@ -13,7 +13,7 @@ public class TinySkeleton : Enemy
     {
         playerCharacter = FindObjectOfType<PlayerCharacterBoi>().gameObject;
         enemyAnimator = GetComponent<Animator>();
-        damage = 20;
+        damage = 75;
     }
 
     // Update is called once per frame

@@ -13,7 +13,7 @@ public class UndeadSoldier : Enemy
     {
         playerCharacter = FindObjectOfType<PlayerCharacterBoi>().gameObject;
         enemyAnimator = GetComponent<Animator>();
-        damage = 50;
+        damage = 100;
     }
 
     // Update is called once per frame

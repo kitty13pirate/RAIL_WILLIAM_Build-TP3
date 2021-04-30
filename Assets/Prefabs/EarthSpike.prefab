@@ -5043,7 +5043,7 @@ MonoBehaviour:
   spikeHitbox1: {fileID: 6674638151832553309}
   spikeHitbox2: {fileID: 1610827961077481853}
   spikeHitbox3: {fileID: 3114491945241156463}
-  spikeDamage: 175
+  spikeDamage: 350
 --- !u!95 &2068705834239362022
 Animator:
   serializedVersion: 3

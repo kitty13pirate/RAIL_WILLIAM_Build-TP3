@@ -4895,4 +4895,4 @@ MonoBehaviour:
   psWater: {fileID: 8346208309309592490}
   isOn: 1
   jetHitbox: {fileID: 981271999245765936}
-  jetDamage: 10
+  jetDamage: 20

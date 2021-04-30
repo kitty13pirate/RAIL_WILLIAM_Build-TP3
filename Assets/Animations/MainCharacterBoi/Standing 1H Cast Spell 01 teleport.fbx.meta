@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b44f235fd6c35fb48ae709a4d6b6686c
+guid: 43dee17baae14ba4db37d841318075a0
 ModelImporter:
   serializedVersion: 19301
   internalIDToNameTable:
@@ -67,7 +67,7 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0.42218503
-        functionName: castHealLight
+        functionName: castTeleport
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

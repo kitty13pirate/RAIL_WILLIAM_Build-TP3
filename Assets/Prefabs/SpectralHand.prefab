@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   handHitbox: {fileID: 5402096454474409437}
-  spectralHandDamage: 5
+  spectralHandDamage: 10
 --- !u!65 &1986221460721756039
 BoxCollider:
   m_ObjectHideFlags: 0

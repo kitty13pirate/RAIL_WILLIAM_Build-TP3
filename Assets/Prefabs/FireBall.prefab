@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e9b81bd2888a9b47865b00522dc4411, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.06
+  speed: 0.12
   psExplosion: {fileID: 1573975331180406938}
   mousePointMask:
     serializedVersion: 2
@@ -55,7 +55,7 @@ MonoBehaviour:
   trailHitbox: {fileID: 1733933336086310900}
   explosionHitbox: {fileID: 1492549387639522966}
   trailDamage: 25
-  explosionDamage: 350
+  explosionDamage: 700
 --- !u!1 &1573975330023876576
 GameObject:
   m_ObjectHideFlags: 0

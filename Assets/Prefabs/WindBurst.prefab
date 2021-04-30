@@ -4859,7 +4859,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   psWind: {fileID: 520761767992091022}
   burstHitbox: {fileID: 1920177979757964820}
-  windBurstDamage: 250
+  windBurstDamage: 500
   force: 100
 --- !u!1 &692631760968648642
 GameObject:
