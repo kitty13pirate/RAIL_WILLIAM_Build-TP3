@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour
     public int enemyNumber;
     public GameObject skeleton;
     public GameObject bigSkeleton;
+    public GameObject wolfRider;
+    public GameObject rockGolem;
     private Vector3 spawnZone;
 
     // Start is called before the first frame update
@@ -18,7 +20,7 @@ public class GameManager : MonoBehaviour
             return;
         singleton = this;
         spawnZone = new Vector3(-1f, 0f, -20f);
-        newWave();
+        StartCoroutine(newWave());
     }
 
     // Verifie le nombre d'enemie encore vivant
@@ -28,28 +30,44 @@ public class GameManager : MonoBehaviour
         if (enemyNumber <= 0)
         {
             Wave += 1;
-            newWave();
+            StartCoroutine(newWave());
         }
     }
 
     // Commence une nouvelle vague d'enemies
-    public void newWave()
+    public IEnumerator newWave()
     {
-        for (int i = 0; i < Wave; i++)
+        for (int i = 1; i < Wave + 1; i++)
         {
-            // 3 squelettes normaux par vagues
-            for (int j = 0; j< 3; j++)
+            // 2 squelettes normaux par vagues
+            for (int j = 0; j < 2; j++)
             {
                 Instantiate(skeleton, spawnZone, Quaternion.identity);
                 enemyNumber += 1;
             }
-            // 1 squelette geant a partir de la vague 3
-            if (i >= 2)
+
+            // 1 Orc Monte par 2 vagues
+            if (i % 2 == 0)
+            {
+                Instantiate(wolfRider, spawnZone, Quaternion.identity);
+                enemyNumber += 1;
+            }
+
+            // 1 squelette geant par 3 vagues
+            if (i % 3 == 0)
             {
                 Instantiate(bigSkeleton, spawnZone, Quaternion.identity);
-                // 5 puisque le gros squelette fait apparaitre a sa mort 5 petits
-                enemyNumber += 5;
+                // +3 puisque le gros squelette fait apparaitre a sa mort 3 petits
+                enemyNumber += 3;
             }
+
+            // 1 golem de roche par 4 vagues
+            if (i % 4 == 0)
+            {
+                Instantiate(rockGolem, spawnZone, Quaternion.identity);
+                enemyNumber += 1;
+            }
+            yield return new WaitForSeconds(2f);
         }
     }
 
@@ -61,15 +79,13 @@ public class GameManager : MonoBehaviour
 
         // Empecher les mouvements du NPC
 
-        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        foreach (Enemy enemy in enemies)
+        foreach (GameObject enemy in enemies)
         {
-            enemy.enabled = false;
-            //enemy.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
+            enemy.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
         }
         // Message de fin de jeu
         Debug.Log($"Fin du jeu a la vague {Wave}");
     }
-
 }

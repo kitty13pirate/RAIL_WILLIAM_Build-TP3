@@ -2,14 +2,32 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 
 public class Enemy : MonoBehaviour
 {
+    NavMeshAgent NavMeshAgent;
     public int health = 1000;
     public Slider healthBar;
     public Collider collider;
-    protected int damage;
+    public int damage;
     protected bool isAttacking;
+    public float speed;
+    public float reach;
+    protected GameObject playerCharacter; 
+    protected Animator enemyAnimator;
+    protected PlayerCharacterBoi playerCharacterScript;
+
+    public void Awake()
+    {
+        NavMeshAgent = GetComponent<NavMeshAgent>();
+        playerCharacterScript = FindObjectOfType<PlayerCharacterBoi>();
+        playerCharacter = FindObjectOfType<PlayerCharacterBoi>().gameObject;
+        enemyAnimator = GetComponent<Animator>();
+
+        //modifier la vitesse du pnj
+        NavMeshAgent.speed = speed;
+    }
 
     public void takeDamage(int damageNumber)
     {
@@ -46,5 +64,29 @@ public class Enemy : MonoBehaviour
     public void stopAttacking()
     {
         isAttacking = false;
+    }
+
+    public void headTowards()
+    {
+        Vector3 v = Camera.main.transform.position - transform.position;
+        v.x = v.z = 0.0f;
+        transform.LookAt(playerCharacter.transform);
+        healthBar.transform.LookAt(Camera.main.transform.position - v);
+        healthBar.transform.rotation = (Camera.main.transform.rotation);
+
+        if (!isAttacking)
+        {
+            NavMeshAgent.speed = speed;
+            // Me deplacer vers la destination
+            NavMeshAgent.SetDestination(playerCharacter.transform.position);
+        }
+
+        //Attaque
+        if (Vector3.Distance(transform.position, playerCharacter.transform.position) < reach && !isAttacking && !playerCharacterScript.isDead)
+        {
+            isAttacking = true;
+            enemyAnimator.SetTrigger("attack");
+            NavMeshAgent.speed = 0;
+        }
     }
 }

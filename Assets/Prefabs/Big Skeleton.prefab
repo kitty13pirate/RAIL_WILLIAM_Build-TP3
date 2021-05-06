@@ -605,6 +605,7 @@ GameObject:
   - component: {fileID: 1797274846225608372}
   - component: {fileID: 1797274846225608375}
   - component: {fileID: 1797274846225608374}
+  - component: {fileID: 5090196222882242659}
   m_Layer: 0
   m_Name: Big Skeleton
   m_TagString: Enemy
@@ -621,7 +622,7 @@ Transform:
   m_GameObject: {fileID: 1797274846225608361}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 4.2, y: 0, z: -1.66}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.1, y: 1.1, z: 1.1}
   m_Children:
   - {fileID: 1797274847016578347}
   - {fileID: 1797274846505017182}
@@ -690,12 +691,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21c59ea4f64940747b331e130f6489d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3000
+  health: 2000
   healthBar: {fileID: 1797274846356814189}
   collider: {fileID: 1797274845577805591}
-  speed: 0.02
+  damage: 200
+  speed: 1.5
+  reach: 1.5
   tinySkeleton: {fileID: 2654973919606069049, guid: f2ff9b2cd66ba6044b02ffc2e76719ff,
     type: 3}
+--- !u!195 &5090196222882242659
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797274846225608361}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &1797274846238731171
 GameObject:
   m_ObjectHideFlags: 0
@@ -852,9 +877,9 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 3000
+  m_MaxValue: 2000
   m_WholeNumbers: 1
-  m_Value: 3000
+  m_Value: 2000
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []

@@ -17,7 +17,7 @@ public class Sortilege : MonoBehaviour
         Collider[] colliders;
         if (type == 1)
         {
-            colliders = Physics.OverlapSphere(collider.transform.position, collider.transform.localScale.x / 2);
+            colliders = Physics.OverlapSphere(collider.transform.position, collider.transform.lossyScale.x / 2);
         }
         else
         {

@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 3336998218167338838}
   - component: {fileID: 3336998218167338833}
   - component: {fileID: 3336998218167338839}
+  - component: {fileID: 908746198765158956}
   m_Layer: 0
   m_Name: Normal Skeleton
   m_TagString: Enemy
@@ -406,7 +407,7 @@ Transform:
   m_GameObject: {fileID: 3336998218167338832}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -4.77, y: 0, z: -5.41}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 3336998218167494126}
   - {fileID: 3336998218167541234}
@@ -478,7 +479,31 @@ MonoBehaviour:
   health: 1000
   healthBar: {fileID: 4716618257791028261}
   collider: {fileID: 4716618257244791895}
-  speed: 0.025
+  damage: 100
+  speed: 1
+  reach: 1
+--- !u!195 &908746198765158956
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3336998218167338832}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &3336998218167339346
 GameObject:
   m_ObjectHideFlags: 0

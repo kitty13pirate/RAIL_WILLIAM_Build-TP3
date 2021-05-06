@@ -18,6 +18,9 @@ public class PlayerCharacterBoi : MonoBehaviour
     //Le rigidbody
     private Rigidbody rb;
 
+    //Si le personnage est mort
+    public bool isDead;
+
     //Le particle system pour la teleportation
     public ParticleSystem psTeleport;
 
@@ -130,7 +133,7 @@ public class PlayerCharacterBoi : MonoBehaviour
 
         // Perform the raycast and if it hits something on the mousePointMask layer...
         // Le 10 est le numero du layermask mousePoint, utilise pour detecter la position de la souris
-        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, mousePointMask))
+        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, mousePointMask) && !isDead)
         {
             // Create a vector from the player to the point on the floor the raycast from the mouse hit.
             Vector3 playerToMouse = floorHit.point - transform.position;
@@ -162,7 +165,8 @@ public class PlayerCharacterBoi : MonoBehaviour
 
     void die()
     {
-        Destroy(gameObject);
+        isDead = true;
+        playerCharacterBoiAnimator.SetTrigger("Death");
     }
 
     void Animating(float h, float v)
