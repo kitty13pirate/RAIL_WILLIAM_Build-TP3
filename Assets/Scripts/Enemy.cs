@@ -45,7 +45,10 @@ public class Enemy : MonoBehaviour
         GameManager.singleton.deadEnemy();
     }
 
-
+    public void win()
+    {
+        enemyAnimator.SetTrigger("win");
+    }
 
     public void attack()
     {

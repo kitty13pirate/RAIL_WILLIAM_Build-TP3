@@ -167,6 +167,7 @@ public class PlayerCharacterBoi : MonoBehaviour
     {
         isDead = true;
         playerCharacterBoiAnimator.SetTrigger("Death");
+        GameManager.singleton.GameOver();
     }
 
     void Animating(float h, float v)
@@ -219,14 +220,14 @@ public class PlayerCharacterBoi : MonoBehaviour
     {
         object castedFireBall = Instantiate(fireBall, castLocation.position, Quaternion.identity);
         fireCooldown = true;
-        StartCoroutine(coolDown(2, 1.5f));
+        StartCoroutine(coolDown(2, 3f));
     }
 
     void castEarthSpike()
     {
         object castedEarthSpike = Instantiate(earthSpike);
         earthCooldown = true;
-        StartCoroutine(coolDown(3, 4f));
+        StartCoroutine(coolDown(3, 5f));
     }
 
     void castWaterJet()
@@ -240,7 +241,7 @@ public class PlayerCharacterBoi : MonoBehaviour
     {
         object castedWindBurst = Instantiate(windBurst, transform.position, Quaternion.identity);
         windCooldown = true;
-        StartCoroutine(coolDown(5, 3f));
+        StartCoroutine(coolDown(5, 4f));
     }
 
     void castHealLight()
@@ -252,6 +253,31 @@ public class PlayerCharacterBoi : MonoBehaviour
 
     private IEnumerator coolDown(int spellNumber, float time)
     {
+        GameObject spellIcon = GameObject.Find("");
+        if (spellNumber == 0)
+            spellIcon = GameObject.Find("TeleportIcon");
+        
+        else if (spellNumber == 1)
+            spellIcon = GameObject.Find("SpectralHandIcon");
+        
+        else if (spellNumber == 2)
+            spellIcon = GameObject.Find("FireBallIcon");
+        
+        else if (spellNumber == 3)
+            spellIcon = GameObject.Find("EarthSpikeIcon");
+        
+        else if (spellNumber == 4)
+            spellIcon = GameObject.Find("WaterJetIcon");
+
+        else if (spellNumber == 5)
+           spellIcon = GameObject.Find("WindBurstIcon");
+        
+        else if (spellNumber == 6)
+            spellIcon = GameObject.Find("HealLightIcon");
+
+        SpellCooldownUI cooldownScript = spellIcon.GetComponent<SpellCooldownUI>();
+        cooldownScript.UseSpell();
+
         yield return new WaitForSeconds(time);
         if (spellNumber == 0)
             teleportCooldown = false;
@@ -267,5 +293,6 @@ public class PlayerCharacterBoi : MonoBehaviour
             windCooldown = false;
         else if (spellNumber == 6)
             healCooldown = false;
+        
     }
 }

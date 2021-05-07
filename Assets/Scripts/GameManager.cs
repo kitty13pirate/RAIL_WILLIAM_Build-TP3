@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager singleton;
     private int Wave = 1;
     public int enemyNumber;
+    public Text gameOverText;
     public GameObject skeleton;
     public GameObject bigSkeleton;
     public GameObject wolfRider;
@@ -84,8 +86,12 @@ public class GameManager : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             enemy.GetComponent<UnityEngine.AI.NavMeshAgent>().isStopped = true;
+            Enemy scriptEnemy = enemy.GetComponent<Enemy>();
+            scriptEnemy.win();
         }
         // Message de fin de jeu
-        Debug.Log($"Fin du jeu a la vague {Wave}");
+        gameOverText.text = "Vous avez survecu jusqu'a la vague " + Wave;
+        gameOverText.gameObject.SetActive(true);
+        
     }
 }

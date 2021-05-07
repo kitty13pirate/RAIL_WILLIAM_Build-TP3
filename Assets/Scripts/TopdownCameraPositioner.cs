@@ -9,7 +9,7 @@ public class TopdownCameraPositioner : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        transform.position = new Vector3(playerCharacter.transform.position.x, playerCharacter.transform.position.y + 12f, playerCharacter.transform.position.z - 3f);
+        transform.position = new Vector3(playerCharacter.transform.position.x, playerCharacter.transform.position.y + 8f, playerCharacter.transform.position.z - 3f);
         transform.LookAt(playerCharacter);
     }
 }
