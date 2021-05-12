@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager singleton;
     private int Wave = 1;
     public int enemyNumber;
+    public Text waveCounter;
     public Text gameOverText;
+    public Button gameOverButton;
     public GameObject skeleton;
     public GameObject bigSkeleton;
     public GameObject wolfRider;
@@ -22,6 +25,7 @@ public class GameManager : MonoBehaviour
             return;
         singleton = this;
         spawnZone = new Vector3(-1f, 0f, -20f);
+        gameOverButton.onClick.AddListener(gameOverButton_onClick);
         StartCoroutine(newWave());
     }
 
@@ -39,6 +43,7 @@ public class GameManager : MonoBehaviour
     // Commence une nouvelle vague d'enemies
     public IEnumerator newWave()
     {
+        waveCounter.text = "Vague : " + Wave;
         for (int i = 1; i < Wave + 1; i++)
         {
             // 2 squelettes normaux par vagues
@@ -92,6 +97,11 @@ public class GameManager : MonoBehaviour
         // Message de fin de jeu
         gameOverText.text = "Vous avez survecu jusqu'a la vague " + Wave;
         gameOverText.gameObject.SetActive(true);
-        
+        gameOverButton.gameObject.SetActive(true);
+    }
+
+    void gameOverButton_onClick()
+    {
+        SceneManager.LoadScene("MenuScene");
     }
 }

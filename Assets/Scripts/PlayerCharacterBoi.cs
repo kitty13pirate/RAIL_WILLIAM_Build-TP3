@@ -213,42 +213,42 @@ public class PlayerCharacterBoi : MonoBehaviour
     {
         object castedSpectralHand = Instantiate(spectralHand, castLocation.position, transform.rotation);
         pushCooldown = true;
-        StartCoroutine(coolDown(1, 1f));
+        StartCoroutine(coolDown(1, 3f));
     }
 
     void castFireBall()
     {
         object castedFireBall = Instantiate(fireBall, castLocation.position, Quaternion.identity);
         fireCooldown = true;
-        StartCoroutine(coolDown(2, 3f));
+        StartCoroutine(coolDown(2, 5f));
     }
 
     void castEarthSpike()
     {
         object castedEarthSpike = Instantiate(earthSpike);
         earthCooldown = true;
-        StartCoroutine(coolDown(3, 5f));
+        StartCoroutine(coolDown(3, 7f));
     }
 
     void castWaterJet()
     {
         object castedWaterJet = Instantiate(waterJet, castLocation.position, transform.rotation, transform);
         waterCooldown = true;
-        StartCoroutine(coolDown(4, 4f));
+        StartCoroutine(coolDown(4, 7f));
     }
 
     void castWindBurst()
     {
         object castedWindBurst = Instantiate(windBurst, transform.position, Quaternion.identity);
         windCooldown = true;
-        StartCoroutine(coolDown(5, 4f));
+        StartCoroutine(coolDown(5, 6f));
     }
 
     void castHealLight()
     {
         object castedHealLight = Instantiate(healLight, transform.position, Quaternion.identity);
         healCooldown = true;
-        StartCoroutine(coolDown(6, 10f));
+        StartCoroutine(coolDown(6, 15f));
     }
 
     private IEnumerator coolDown(int spellNumber, float time)

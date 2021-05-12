@@ -8,8 +8,11 @@ public class Enemy : MonoBehaviour
 {
     NavMeshAgent NavMeshAgent;
     public int health = 1000;
+    private bool isDead = false;
+    public Canvas canvasHealth;
     public Slider healthBar;
-    public Collider collider;
+    private Collider bodyCollider;
+    public Collider HitboxCollider;
     public int damage;
     protected bool isAttacking;
     public float speed;
@@ -24,6 +27,7 @@ public class Enemy : MonoBehaviour
         playerCharacterScript = FindObjectOfType<PlayerCharacterBoi>();
         playerCharacter = FindObjectOfType<PlayerCharacterBoi>().gameObject;
         enemyAnimator = GetComponent<Animator>();
+        bodyCollider = GetComponent<Collider>();
 
         //modifier la vitesse du pnj
         NavMeshAgent.speed = speed;
@@ -33,16 +37,21 @@ public class Enemy : MonoBehaviour
     {
         health -= damageNumber;
         healthBar.value = health;
-        if (health <= 0)
+        if (health <= 0 && !isDead)
         {
+            isDead = true;
             die();
         }
     }
 
     public virtual void die()
     {
-        Destroy(gameObject);
+        canvasHealth.enabled = false;
+        NavMeshAgent.isStopped = true;
+        enemyAnimator.SetTrigger("die");
+        bodyCollider.isTrigger = true;
         GameManager.singleton.deadEnemy();
+        NavMeshAgent.isStopped = true;
     }
 
     public void win()
@@ -53,7 +62,7 @@ public class Enemy : MonoBehaviour
     public void attack()
     {
         Collider[] colliders;
-        colliders = Physics.OverlapBox(collider.transform.position, collider.transform.lossyScale / 2, collider.transform.rotation);
+        colliders = Physics.OverlapBox(HitboxCollider.transform.position, HitboxCollider.transform.lossyScale / 2, HitboxCollider.transform.rotation);
 
         foreach (Collider collision in colliders)
         {
@@ -73,7 +82,8 @@ public class Enemy : MonoBehaviour
     {
         Vector3 v = Camera.main.transform.position - transform.position;
         v.x = v.z = 0.0f;
-        transform.LookAt(playerCharacter.transform);
+        if (!isDead)
+            transform.LookAt(playerCharacter.transform);
         healthBar.transform.LookAt(Camera.main.transform.position - v);
         healthBar.transform.rotation = (Camera.main.transform.rotation);
 
@@ -85,11 +95,22 @@ public class Enemy : MonoBehaviour
         }
 
         //Attaque
-        if (Vector3.Distance(transform.position, playerCharacter.transform.position) < reach && !isAttacking && !playerCharacterScript.isDead)
+        if (Vector3.Distance(transform.position, playerCharacter.transform.position) < reach && !isAttacking && !playerCharacterScript.isDead && !isDead)
         {
             isAttacking = true;
             enemyAnimator.SetTrigger("attack");
             NavMeshAgent.speed = 0;
         }
+    }
+
+    public void disappearRef()
+    {
+        StartCoroutine(disappear());
+    }
+
+    public IEnumerator disappear()
+    {
+        yield return new WaitForSeconds(10f);
+        Destroy(gameObject);
     }
 }
