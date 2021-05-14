@@ -17,6 +17,8 @@ public class FireBall : Sortilege
     // Start
     private void Start()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
+
         // Create a ray from the mouse cursor on screen in the direction of the camera.
         Ray camRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -50,9 +52,10 @@ public class FireBall : Sortilege
             if (explosion != true)
             {
                 hitboxCollision(explosionHitbox, 1, explosionDamage);
+                audioSource.PlayOneShot(audioSource.clip);
                 explosion = true;
             }
-            StartCoroutine(disappear(0.65f));
+            StartCoroutine(disappear(2f));
         }
     }
 

@@ -53,10 +53,14 @@ public class PlayerCharacterBoi : MonoBehaviour
     // Le layermask a ignorer
     public LayerMask mousePointMask;
 
+    // L'audioSource et les audioClips
+    private AudioSource audioSource;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         playerCharacterBoiAnimator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -68,6 +72,7 @@ public class PlayerCharacterBoi : MonoBehaviour
             // Les touches pour les sorts
             if (Input.GetMouseButtonDown(0) && !teleportCooldown)
             {
+                audioSource.PlayOneShot(audioSource.clip);
                 playerCharacterBoiAnimator.SetTrigger("Basic Spell");
                 isCasting = true;
             }
@@ -206,6 +211,7 @@ public class PlayerCharacterBoi : MonoBehaviour
             psTeleport.Emit(200);
         }
         teleportCooldown = true;
+        
         StartCoroutine(coolDown(0, 3f));
     }
 

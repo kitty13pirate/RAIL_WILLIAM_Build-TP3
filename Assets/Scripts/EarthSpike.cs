@@ -16,6 +16,8 @@ public class EarthSpike : Sortilege
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = gameObject.GetComponent<AudioSource>();
+
         // Je rentre les colliders dans la liste
         colliders = new List<Collider> { spikeHitbox1, spikeHitbox2, spikeHitbox3 };
 
@@ -38,6 +40,7 @@ public class EarthSpike : Sortilege
     public void doDamage(int number)
     {
         psDust.Emit(400);
+        audioSource.PlayOneShot(audioSource.clip);
         hitboxCollision(colliders[number-1], 2, spikeDamage * number);
     }
 

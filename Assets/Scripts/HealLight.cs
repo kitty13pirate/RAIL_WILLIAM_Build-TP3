@@ -21,7 +21,7 @@ public class HealLight : Sortilege
     public IEnumerator disappear()
     {
         // La FireBall explose
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(4.5f);
         // Ensuite elle disparait
         Destroy(gameObject);
     }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Sortilege : MonoBehaviour
 {
+    protected AudioSource audioSource;
+
     public virtual IEnumerator disappear(float time)
     {
         // On attend pendant le temps indique
