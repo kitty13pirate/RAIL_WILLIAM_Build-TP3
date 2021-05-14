@@ -21,6 +21,9 @@ public class Enemy : MonoBehaviour
     protected Animator enemyAnimator;
     protected PlayerCharacterBoi playerCharacterScript;
 
+    protected AudioSource audioSource;
+    public AudioClip attackSound;
+
     public void Awake()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
@@ -28,6 +31,7 @@ public class Enemy : MonoBehaviour
         playerCharacter = FindObjectOfType<PlayerCharacterBoi>().gameObject;
         enemyAnimator = GetComponent<Animator>();
         bodyCollider = GetComponent<Collider>();
+        audioSource = GetComponent<AudioSource>();
 
         //modifier la vitesse du pnj
         NavMeshAgent.speed = speed;
@@ -49,9 +53,11 @@ public class Enemy : MonoBehaviour
         canvasHealth.enabled = false;
         NavMeshAgent.isStopped = true;
         enemyAnimator.SetTrigger("die");
+        audioSource.PlayOneShot(audioSource.clip);
         bodyCollider.isTrigger = true;
         GameManager.singleton.deadEnemy();
         NavMeshAgent.isStopped = true;
+        
     }
 
     public void win()
@@ -61,6 +67,7 @@ public class Enemy : MonoBehaviour
 
     public void attack()
     {
+        audioSource.PlayOneShot(attackSound);
         Collider[] colliders;
         colliders = Physics.OverlapBox(HitboxCollider.transform.position, HitboxCollider.transform.lossyScale / 2, HitboxCollider.transform.rotation);
 

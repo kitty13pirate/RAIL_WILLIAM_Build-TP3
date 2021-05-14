@@ -56,6 +56,13 @@ public class PlayerCharacterBoi : MonoBehaviour
     // L'audioSource et les audioClips
     private AudioSource audioSource;
 
+    // La variable pour le menu
+    private bool isMenu = false;
+
+    // Les canvas pour le menu et l'UI
+    public Canvas UI;
+    public Canvas SoundMenu;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -67,7 +74,7 @@ public class PlayerCharacterBoi : MonoBehaviour
     void Update()
     {
         // Vérifier les inputs du joueur
-        if (!isCasting)
+        if (!isCasting && !isMenu)
         {
             // Les touches pour les sorts
             if (Input.GetMouseButtonDown(0) && !teleportCooldown)
@@ -106,6 +113,12 @@ public class PlayerCharacterBoi : MonoBehaviour
                 playerCharacterBoiAnimator.SetTrigger("Heal Spell");
                 isCasting = true;
             }
+        }
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            isMenu = !isMenu;
+            SoundMenu.gameObject.SetActive(!SoundMenu.gameObject.activeSelf);
+            UI.gameObject.SetActive(!UI.gameObject.activeSelf);
         }
 
         

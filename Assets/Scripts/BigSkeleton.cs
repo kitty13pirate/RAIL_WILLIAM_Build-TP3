@@ -14,6 +14,7 @@ public class BigSkeleton : Enemy
 
     public override void die()
     {
+        base.die();
         for (int i = 0; i < 3; i++)
         {
             float x = Random.Range(transform.position.x - 1f, transform.position.x + 1f);
@@ -23,6 +24,5 @@ public class BigSkeleton : Enemy
 
             object revengeSkeleton = Instantiate(tinySkeleton, newPosition, transform.rotation);
         }
-        Destroy(gameObject);
     }
 }

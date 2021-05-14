@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public GameObject wolfRider;
     public GameObject rockGolem;
     private Vector3 spawnZone;
+    private AudioManager audioManager;
 
     // Start is called before the first frame update
     void Awake()
@@ -26,6 +27,7 @@ public class GameManager : MonoBehaviour
         singleton = this;
         spawnZone = new Vector3(-1f, 0f, -20f);
         gameOverButton.onClick.AddListener(gameOverButton_onClick);
+        audioManager = FindObjectOfType<AudioManager>();
         StartCoroutine(newWave());
     }
 
@@ -64,8 +66,8 @@ public class GameManager : MonoBehaviour
             if (i % 3 == 0)
             {
                 Instantiate(bigSkeleton, spawnZone, Quaternion.identity);
-                // +3 puisque le gros squelette fait apparaitre a sa mort 3 petits
-                enemyNumber += 3;
+                // +4 puisque le gros squelette fait apparaitre a sa mort 3 petits de plus
+                enemyNumber += 4;
             }
 
             // 1 golem de roche par 4 vagues
@@ -80,6 +82,7 @@ public class GameManager : MonoBehaviour
 
     public void GameOver()
     {
+        audioManager.GameOverSound();
         // Empecher les mouvements du joueur
         PlayerCharacterBoi player = FindObjectOfType<PlayerCharacterBoi>();
         player.enabled = false;
