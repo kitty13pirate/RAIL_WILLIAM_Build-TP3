@@ -52,6 +52,8 @@ public class PlayerCharacterBoi : MonoBehaviour
 
     // Le layermask a ignorer
     public LayerMask mousePointMask;
+    public LayerMask TeleportMask;
+    public LayerMask NoTeleportMask;
 
     // L'audioSource et les audioClips
     private AudioSource audioSource;
@@ -114,6 +116,7 @@ public class PlayerCharacterBoi : MonoBehaviour
                 isCasting = true;
             }
         }
+        // Pour ouvrir le menu de son
         if (Input.GetKeyDown(KeyCode.P))
         {
             isMenu = !isMenu;
@@ -167,6 +170,7 @@ public class PlayerCharacterBoi : MonoBehaviour
         }
     }
 
+    // Le jouer perd de la vie
     public void takeDamage(int damageNumber)
     {
         health -= damageNumber;
@@ -181,6 +185,7 @@ public class PlayerCharacterBoi : MonoBehaviour
         }
     }
 
+    // Le joueur meurt
     void die()
     {
         isDead = true;
@@ -215,17 +220,22 @@ public class PlayerCharacterBoi : MonoBehaviour
         // Create a RaycastHit variable to store information about what was hit by the ray.
         RaycastHit floorHit;
 
-        // Perform the raycast and if it hits something on the mousePointMask layer...
-        // Le 10 est le numero du layermask mousePoint, utilise pour detecter la position de la souris
-        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, mousePointMask))
+        // Perform the raycast and if it hits something on the Teleport layer but not the NoTeleport layer...
+        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, NoTeleportMask))
+        {
+            return;
+        }
+
+        if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, TeleportMask))
         {
             psTeleport.Emit(200);
             transform.position = new Vector3(floorHit.point.x, floorHit.point.y - 0.5f, floorHit.point.z);
             psTeleport.Emit(200);
+            teleportCooldown = true;
+
+            StartCoroutine(coolDown(0, 3f));
         }
-        teleportCooldown = true;
         
-        StartCoroutine(coolDown(0, 3f));
     }
 
     void castSpectralHand()
@@ -270,6 +280,7 @@ public class PlayerCharacterBoi : MonoBehaviour
         StartCoroutine(coolDown(6, 15f));
     }
 
+    // La foncton pour le cooldown des abilites et pour l'afficher sur l'UI
     private IEnumerator coolDown(int spellNumber, float time)
     {
         GameObject spellIcon = GameObject.Find("");

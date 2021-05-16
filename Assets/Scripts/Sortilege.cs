@@ -6,6 +6,7 @@ public class Sortilege : MonoBehaviour
 {
     protected AudioSource audioSource;
 
+    // La fonction pour faire disparaitre les sorts
     public virtual IEnumerator disappear(float time)
     {
         // On attend pendant le temps indique
@@ -14,8 +15,10 @@ public class Sortilege : MonoBehaviour
         Destroy(gameObject);
     }
 
+    // La fonction pour verifier les collisions
     public virtual void hitboxCollision(Collider collider, int type, int damage)
     {
+        // On prend tous les colliders en collision avec sa hitbox
         Collider[] colliders;
         if (type == 1)
         {
@@ -28,6 +31,7 @@ public class Sortilege : MonoBehaviour
 
         foreach(Collider collision in colliders)
         {
+            // Si c'est un enemy, il prend du degat
             if (collision.CompareTag("Enemy"))
             {
                 Enemy scriptEnemy = collision.GetComponent(typeof(Enemy)) as Enemy;

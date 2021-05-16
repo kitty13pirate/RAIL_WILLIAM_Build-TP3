@@ -26,7 +26,7 @@ public class FireBall : Sortilege
         RaycastHit floorHit;
 
         // Perform the raycast and if it hits something on the mousePointMask layer...
-        // Le 10 est le numero du layermask mousePoint, utilise pour detecter la position de la souris
+        // Le layermask mousePoint est utilise pour detecter la position de la souris
         if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, mousePointMask))
         {
             destination = floorHit.point;

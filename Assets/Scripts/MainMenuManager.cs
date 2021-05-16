@@ -12,25 +12,33 @@ public class MainMenuManager : MonoBehaviour
     public GameObject menuPrincipal;
     public GameObject menuInstructions;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         btnJouer.onClick.AddListener(btnJouer_onClick);
         btnInstructions.onClick.AddListener(btnInstructions_onClick);
         btnRetour.onClick.AddListener(btnRetour_onClick);
         menuInstructions.SetActive(false);
+
+#if !UNITY_EDITOR && UNITY_WEBGL
+        UnityEngine.WebGLInput.captureAllKeyboardInput = false;
+#endif
+
     }
 
+    // La scene de jeux est loader
     void btnJouer_onClick()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Main");
     }
 
+    // Les instructions sont affiches
     void btnInstructions_onClick()
     {
         menuPrincipal.SetActive(false);
         menuInstructions.SetActive(true);
     }
 
+    // Les instructions sont caches
     void btnRetour_onClick()
     {
         menuPrincipal.SetActive(true);

@@ -34,12 +34,14 @@ public class SpellCooldownUI : MonoBehaviour
     {
         cooldownTimer -= Time.deltaTime;
 
+        // Si le timer est fini, le cooldown est enleve
         if (cooldownTimer < 0f)
         {
             isCooldown = false;
             textCooldown.gameObject.SetActive(false);
             imageCooldown.fillAmount = 0f;
         }
+        // Sinon, l'animation de cooldown continue
         else
         {
             textCooldown.text = Mathf.RoundToInt(cooldownTimer).ToString();

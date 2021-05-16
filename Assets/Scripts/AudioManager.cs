@@ -11,13 +11,14 @@ public class AudioManager : MonoBehaviour
 
     public AudioMixer mainMixer;
 
+    // Les sliders pour ajsuter le volume
     [Header("Sliders")]
     public Slider sliderVolMaster;
     public Slider sliderVolMusic;
     public Slider sliderVolSortilege;
     public Slider sliderVolEnemy;
 
-    // Start is called before the first frame update
+    // Assignement des sliders
     void Start()
     {
         audioSource = gameObject.GetComponent<AudioSource>();
@@ -64,10 +65,11 @@ public class AudioManager : MonoBehaviour
 
     void setVolume(string paramName, float value)
     {
-        // Modifier le volume du group Music
+        // Modifier le volume
         mainMixer.SetFloat(paramName, Mathf.Log(value) * 20f);
     }
 
+    // Faire jouer la musique de Game Over
     public void GameOverSound()
     {
         audioSource.PlayOneShot(gameOver);

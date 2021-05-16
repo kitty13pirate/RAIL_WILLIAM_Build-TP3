@@ -6,12 +6,13 @@ public class BigSkeleton : Enemy
 {
     public Object tinySkeleton;
 
-    // Update is called once per frame
+    // Pour avancer vers le joueur
     void FixedUpdate()
     {
         headTowards();
     }
 
+    // Lorsqu'il meurt, il fait apparaitre 3 petits squelettes autour de lui
     public override void die()
     {
         base.die();

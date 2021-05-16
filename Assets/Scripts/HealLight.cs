@@ -20,18 +20,19 @@ public class HealLight : Sortilege
 
     public IEnumerator disappear()
     {
-        // La FireBall explose
+        // La lumiere attend avant de disparaitre
         yield return new WaitForSeconds(4.5f);
-        // Ensuite elle disparait
         Destroy(gameObject);
     }
 
+    // La lumiere guerit le joueur lorsqu'il est dedans
     public override void hitboxCollision(Collider collider, int type, int damage)
     {
+        // la lumiere prend tous les colliders en collision avec sa hitbox
         Collider[] colliders;
         colliders = Physics.OverlapSphere(collider.transform.position, collider.transform.localScale.x / 2);
 
-
+        // Si c'est le joueur elle le guerit
         foreach (Collider collision in colliders)
         {
             if (collision.CompareTag("Player"))

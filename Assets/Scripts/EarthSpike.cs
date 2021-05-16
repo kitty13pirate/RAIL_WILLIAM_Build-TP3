@@ -7,11 +7,15 @@ public class EarthSpike : Sortilege
     private Vector3 destination;
     public ParticleSystem psDust;
     public LayerMask mousePointMask;
+
+    // Les 3 hitboxes pour le degat
     public Collider spikeHitbox1;
     public Collider spikeHitbox2;
     public Collider spikeHitbox3;
-    public int spikeDamage;
     private List<Collider> colliders;
+
+    // Le degat
+    public int spikeDamage;
 
     // Start is called before the first frame update
     void Start()
@@ -28,7 +32,7 @@ public class EarthSpike : Sortilege
         RaycastHit floorHit;
 
         // Perform the raycast and if it hits something on the mousePointMask layer...
-        // Le 10 est le numero du layermask mousePoint, utilise pour detecter la position de la souris
+        // Le layermask mousePoint, est utilise pour detecter la position de la souris
         if (Physics.Raycast(camRay, out floorHit, Mathf.Infinity, mousePointMask))
         {
             destination = floorHit.point;
@@ -36,7 +40,7 @@ public class EarthSpike : Sortilege
         }
     }
 
-    // La fonction pour endommager les enemies est appelee durant l'animation
+    // La fonction pour endommager les enemies est appelee durant l'animation, a trois reprises
     public void doDamage(int number)
     {
         psDust.Emit(400);
@@ -44,7 +48,7 @@ public class EarthSpike : Sortilege
         hitboxCollision(colliders[number-1], 2, spikeDamage * number);
     }
 
-    // Cette fonction est appelee dans l'animation EarthSpikeErupt
+    // Cette fonction est appelee dans l'animation EarthSpikeErupt pour faire disparaitre le pique
     public void disappear()
     {
         Destroy(transform.parent.gameObject);
