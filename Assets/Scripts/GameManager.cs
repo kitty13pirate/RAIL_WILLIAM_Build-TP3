@@ -43,8 +43,8 @@ public class GameManager : MonoBehaviour
         // Debut de la premiere vague
         StartCoroutine(newWave());
 
-#if !UNITY_EDITOR && UNITY_WEBGL
-        UnityEngine.WebGLInput.captureAllKeyboardInput = false;
+#if !UNITY_EDITOR && UNITY_WEBGL			
+UnityEngine.WebGLInput.captureAllKeyboardInput = false;
 #endif
     }
 

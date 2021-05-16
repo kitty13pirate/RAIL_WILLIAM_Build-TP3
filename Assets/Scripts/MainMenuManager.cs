@@ -19,9 +19,10 @@ public class MainMenuManager : MonoBehaviour
         btnRetour.onClick.AddListener(btnRetour_onClick);
         menuInstructions.SetActive(false);
 
-#if !UNITY_EDITOR && UNITY_WEBGL
-        UnityEngine.WebGLInput.captureAllKeyboardInput = false;
+#if !UNITY_EDITOR && UNITY_WEBGL			
+UnityEngine.WebGLInput.captureAllKeyboardInput = false;
 #endif
+
 
     }
 
